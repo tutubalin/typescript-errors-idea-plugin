@@ -10,6 +10,7 @@ import guru.tutubalin.webpackErrors.model.ErrorGroup;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class PluginToolWindow implements ToolWindowFactory {
 
@@ -24,12 +25,15 @@ public class PluginToolWindow implements ToolWindowFactory {
 
     private DefaultListModel<ErrorGroup> listModel;
     private ToolWindow toolWindow;
+    private DefaultTableModel tableModel;
 
 
     public void displayErrorGroup(ErrorGroup errorGroup) {
 
         listModel.clear();
         errorGroup.getChildren().forEach(item -> listModel.addElement(item));
+
+        //errorGroup.getChildren().forEach(item -> tableModel.addRow(new Object[]{item.getTitle(), item.getCount()}));
 
         btnBack.setEnabled(errorGroup.getParent() != null);
 
@@ -42,6 +46,10 @@ public class PluginToolWindow implements ToolWindowFactory {
 
         listModel = new DefaultListModel<>();
         list.setModel(listModel);
+        list.setCellRenderer(new ErrorGroupCellRenderer());
+
+        /*tableModel = new DefaultTableModel(new String[]{"Error", "Count"}, 20);
+        table.setModel(tableModel); */
 
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(panelContent, "", false);

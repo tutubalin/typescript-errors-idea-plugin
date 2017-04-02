@@ -30,6 +30,8 @@ class DataLoader {
 
     static void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
 
+        // TODO: use another way to get project
+        // dataContext may be null on IDEA startup
         DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
         Project project = DataKeys.PROJECT.getData(dataContext);
 
