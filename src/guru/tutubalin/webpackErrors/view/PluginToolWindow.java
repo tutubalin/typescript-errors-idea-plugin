@@ -20,7 +20,7 @@ public class PluginToolWindow implements ToolWindowFactory {
 
     private PluginController controller;
 
-    public static String ID = "Webpack Errors";
+    public static final String ID = "Webpack Errors";
 
     private DefaultListModel<ErrorGroup> listModel;
     private ToolWindow toolWindow;

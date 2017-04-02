@@ -22,13 +22,13 @@ import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class DataLoader {
+class DataLoader {
 
-    private static Pattern patternSplitter = Pattern.compile("ERROR\\sin\\s(?:\\[at-loader]\\s)?", Pattern.MULTILINE);
-    private static Pattern patternError = Pattern.compile("([^:]+)(?::(\\d+):(\\d+))?\\s*\\n^\\s*([^:]+):\\s*(.*)",Pattern.MULTILINE);
-    private static Pattern patternStackTrace = Pattern.compile("\\s@\\s(?:\\S*\\s(?:(\\d+):(\\d+)-(\\d+))?)",Pattern.MULTILINE);
+    private static final Pattern patternSplitter = Pattern.compile("ERROR\\sin\\s(?:\\[at-loader]\\s)?", Pattern.MULTILINE);
+    private static final Pattern patternError = Pattern.compile("([^:]+)(?::(\\d+):(\\d+))?\\s*\\n^\\s*([^:]+):\\s*(.*)",Pattern.MULTILINE);
+    private static final Pattern patternStackTrace = Pattern.compile("\\s@\\s(?:\\S*\\s(?:(\\d+):(\\d+)-(\\d+))?)",Pattern.MULTILINE);
 
-    public static void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
+    static void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
 
         DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
         Project project = DataKeys.PROJECT.getData(dataContext);
@@ -90,7 +90,9 @@ public class DataLoader {
 
                     Matcher stackTraceMatcher = patternStackTrace.matcher(errorMessage.substring(errorMatcher.end()));
 
-                    if (stackTraceMatcher.lookingAt()) {
+                    com.intellij.openapi.diagnostic.Logger.getInstance("My").debug(errorMessage.substring(errorMatcher.end()));
+
+                    if (stackTraceMatcher.find()) {
                         result.line = safeParseInt(stackTraceMatcher.group(1), result.line);
                         result.startIndex = safeParseInt(stackTraceMatcher.group(2), result.startIndex);
                         result.endIndex = safeParseInt(stackTraceMatcher.group(3), result.endIndex);

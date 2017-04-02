@@ -7,7 +7,7 @@ public enum ErrorGroupLevel {
     FILE,
     LOCATION;
 
-    private static ErrorGroupLevel[] vals = values();
+    private static final ErrorGroupLevel[] vals = values();
 
     public ErrorGroupLevel next() {
         return vals[ordinal() + 1];

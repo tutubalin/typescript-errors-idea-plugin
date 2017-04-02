@@ -72,7 +72,7 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
         }
     }
 
-    private String getCommonErrorDescriptio(String errorCode) {
+    private String getCommonErrorDescription(String errorCode) {
         return errorCode;
     }
 
