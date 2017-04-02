@@ -17,12 +17,14 @@ public class WebpackErrorsToolWindowFactory implements ToolWindowFactory {
     private JTextArea txtLog;
     private JButton btnUpdate;
     private JList<ErrorGroup> list;
+    private JButton btnBack;
 
     private PluginController controller;
 
     public static String ID = "Webpack Errors";
 
     private DefaultListModel<ErrorGroup> listModel;
+    private ToolWindow toolWindow;
 
 
     public void displayErrorGroup(ErrorGroup errorGroup) {
@@ -30,10 +32,14 @@ public class WebpackErrorsToolWindowFactory implements ToolWindowFactory {
         listModel.clear();
         errorGroup.getChildren().forEach(item -> listModel.addElement(item));
 
+        btnBack.setEnabled(errorGroup.getParent() != null);
+
+        toolWindow.setTitle("Webpack errors - "+errorGroup.getTitle());
     }
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        this.toolWindow = toolWindow;
         listModel = new DefaultListModel<>();
         list.setModel(listModel);
 
@@ -57,7 +63,11 @@ public class WebpackErrorsToolWindowFactory implements ToolWindowFactory {
         });
 
         btnUpdate.addActionListener(e -> {
-            controller.reloadFile();
+            controller.loadFile();
+        });
+
+        btnBack.addActionListener(e -> {
+            controller.back();
         });
 
     }

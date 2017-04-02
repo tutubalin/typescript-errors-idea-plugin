@@ -18,6 +18,7 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
     private ErrorGroupLevel level;
 
     private boolean sorted = false;
+    private ErrorGroup parent = null;
 
     public ErrorGroup(String title) {
         this(title, ErrorGroupLevel.ROOT);
@@ -28,11 +29,7 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
         this.level = level;
     }
 
-    public boolean isLeaf() {
-        return count == 1;
-    }
-
-    public void add(ErrorInformation error) {
+    public synchronized void add(ErrorInformation error) {
 
         count++;
         if (count == 1) {
@@ -63,6 +60,7 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
 
             if (subgroup == null) {
                 subgroup = new ErrorGroup(key, level.next());
+                subgroup.parent = this;
                 hash.put(key, subgroup);
                 children.add(subgroup);
             }
@@ -77,6 +75,10 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
 
     public int getCount() {
         return count;
+    }
+
+    public boolean isLeaf() {
+        return count == 1;
     }
 
     public ErrorInformation getErrorInfo() {
@@ -98,6 +100,10 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
     @Override
     public int compareTo(@NotNull ErrorGroup anotherGroup) {
         return anotherGroup.count - this.count;
+    }
+
+    public ErrorGroup getParent() {
+        return parent;
     }
 }
 
