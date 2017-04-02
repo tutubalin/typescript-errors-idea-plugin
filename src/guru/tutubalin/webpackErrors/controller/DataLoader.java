@@ -17,6 +17,7 @@ import guru.tutubalin.webpackErrors.model.ErrorInformation;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,7 +28,7 @@ public class DataLoader {
     private static Pattern patternError = Pattern.compile("([^:]+)(?::(\\d+):(\\d+))?\\s*\\n^\\s*([^:]+):\\s*(.*)",Pattern.MULTILINE);
     private static Pattern patternStackTrace = Pattern.compile("\\s@\\s(?:\\S*\\s(?:(\\d+):(\\d+)-(\\d+))?)",Pattern.MULTILINE);
 
-    public void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
+    public static void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
 
         DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
         Project project = DataKeys.PROJECT.getData(dataContext);
@@ -70,77 +71,8 @@ public class DataLoader {
                 patternSplitter.splitAsStream(fileContent)
                         .skip(1)
                         .map(this::parseError)
-                        .forEach( error -> root.add(error));
-
-                //fileContent.spl  (patternSplitter);
-
-                //patternSplitter.split()
-
-                /*root.add(new ErrorInformation() {
-                    {
-                        errorCode = "1000";
-                        description = "Shit happened";
-                        file = "index.ts";
-                        startIndex = 1;
-                        endIndex = 10;
-                        line = 4;
-                    }
-                });
-
-                root.add(new ErrorInformation() {
-                    {
-                        errorCode = "1000";
-                        description = "Shit happened";
-                        file = "huy.ts";
-                        startIndex = 1;
-                        endIndex = 10;
-                        line = 4;
-                    }
-                });
-
-                root.add(new ErrorInformation() {
-                    {
-                        errorCode = "1000";
-                        description = "Almost ok";
-                        file = "index.ts";
-                        startIndex = 1;
-                        endIndex = 10;
-                        line = 4;
-                    }
-                });
-
-                root.add(new ErrorInformation() {
-                    {
-                        errorCode = "1002";
-                        description = "Shit happened";
-                        file = "index.ts";
-                        startIndex = 1;
-                        endIndex = 10;
-                        line = 4;
-                    }
-                });
-
-                root.add(new ErrorInformation() {
-                    {
-                        errorCode = "1003";
-                        description = "Shit happened";
-                        file = "index.ts";
-                        startIndex = 1;
-                        endIndex = 10;
-                        line = 4;
-                    }
-                });
-
-                root.add(new ErrorInformation() {
-                    {
-                        errorCode = "1001";
-                        description = "WTF?";
-                        file = "index.ts";
-                        startIndex = 1;
-                        endIndex = 10;
-                        line = 4;
-                    }
-                }); */
+                        .filter(Objects::nonNull)
+                        .forEach(error -> root.add(error));
             }
 
             private ErrorInformation parseError(String errorMessage) {
@@ -186,9 +118,7 @@ public class DataLoader {
             @Override
             public void onSuccess() {
                 super.onSuccess();
-                ApplicationManager.getApplication().invokeLater(()->{
-                    onSuccess.accept(root);
-                });
+                ApplicationManager.getApplication().invokeLater( ()-> onSuccess.accept(root) );
             }
 
         });

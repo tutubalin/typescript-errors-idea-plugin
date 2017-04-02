@@ -37,29 +37,32 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
         }
         sorted = false;
 
-        String key;
-        switch (level) {
-            default:
-            case ERROR_CODE:
-                key = error.errorCode;
-                break;
-            case DESCRIPTION:
-                key = error.description;
-                break;
-            case FILE:
-                key = error.file;
-                break;
-            case LOCATION:
-                key = error.getLocation();
-                break;
-        }
-
         if (level != ErrorGroupLevel.LOCATION) {
+
+            ErrorGroupLevel sublevel = level.next();
+
+            String key;
+
+            switch (sublevel) {
+                default:
+                case ERROR_CODE:
+                    key = error.errorCode;
+                    break;
+                case DESCRIPTION:
+                    key = error.description;
+                    break;
+                case FILE:
+                    key = error.file;
+                    break;
+                case LOCATION:
+                    key = error.getLocation();
+                    break;
+            }
 
             ErrorGroup subgroup = hash.get(key);
 
             if (subgroup == null) {
-                subgroup = new ErrorGroup(key, level.next());
+                subgroup = new ErrorGroup(key, sublevel);
                 subgroup.parent = this;
                 hash.put(key, subgroup);
                 children.add(subgroup);
@@ -67,6 +70,10 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
 
             subgroup.add(error);
         }
+    }
+
+    private String getCommonErrorDescriptio(String errorCode) {
+        return errorCode;
     }
 
     public String getTitle() {

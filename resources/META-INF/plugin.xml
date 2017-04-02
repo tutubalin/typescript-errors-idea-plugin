@@ -26,7 +26,7 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-    <toolWindow id="Webpack Errors" anchor="left" factoryClass="guru.tutubalin.webpackErrors.view.WebpackErrorsToolWindowFactory"/>
+    <toolWindow id="Webpack Errors" anchor="left" factoryClass="guru.tutubalin.webpackErrors.view.PluginToolWindow"/>
   </extensions>
 
   <actions>

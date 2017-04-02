@@ -2,20 +2,20 @@ package guru.tutubalin.webpackErrors.controller;
 
 import guru.tutubalin.webpackErrors.model.ErrorGroup;
 import guru.tutubalin.webpackErrors.model.ErrorInformation;
-import guru.tutubalin.webpackErrors.view.WebpackErrorsToolWindowFactory;
+import guru.tutubalin.webpackErrors.view.PluginToolWindow;
 
 import javax.swing.*;
 
 public class PluginController {
 
 
-    private WebpackErrorsToolWindowFactory view;
+    private PluginToolWindow view;
 
     private ListModel<ErrorGroup> model;
     
     private ErrorGroup currentGroup;
 
-    public PluginController(WebpackErrorsToolWindowFactory view) {
+    public PluginController(PluginToolWindow view) {
         this.view = view;
     }
 
@@ -37,13 +37,7 @@ public class PluginController {
     }
 
     public void loadFile() {
-
-        new DataLoader().loadData("log.txt", this::displayGroup);
-
-    }
-
-    private void log(String message) {
-        view.log(message);
+        DataLoader.loadData("log.txt", this::displayGroup);
     }
 
     public void back() {

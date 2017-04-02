@@ -11,10 +11,9 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
 
-public class WebpackErrorsToolWindowFactory implements ToolWindowFactory {
+public class PluginToolWindow implements ToolWindowFactory {
 
-    private JPanel myToolWindowContent;
-    private JTextArea txtLog;
+    private JPanel panelContent;
     private JButton btnUpdate;
     private JList<ErrorGroup> list;
     private JButton btnBack;
@@ -34,17 +33,18 @@ public class WebpackErrorsToolWindowFactory implements ToolWindowFactory {
 
         btnBack.setEnabled(errorGroup.getParent() != null);
 
-        toolWindow.setTitle("Webpack errors - "+errorGroup.getTitle());
+        toolWindow.setTitle(errorGroup.getTitle() + " - " + errorGroup.getCount());
     }
 
     @Override
-    public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+    public void createToolWindowContent(@NotNull Project project, @NotNull com.intellij.openapi.wm.ToolWindow toolWindow) {
         this.toolWindow = toolWindow;
+
         listModel = new DefaultListModel<>();
         list.setModel(listModel);
 
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
-        Content content = contentFactory.createContent(myToolWindowContent, "", false);
+        Content content = contentFactory.createContent(panelContent, "", false);
         toolWindow.getContentManager().addContent(content);
 
         controller = new PluginController(this);
@@ -57,23 +57,14 @@ public class WebpackErrorsToolWindowFactory implements ToolWindowFactory {
                 ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 
                 if (!lsm.isSelectionEmpty()) {
-                    controller.itemClicked( list.getSelectedValue() );
+                    controller.itemClicked(list.getSelectedValue());
                 }
             }
         });
 
-        btnUpdate.addActionListener(e -> {
-            controller.loadFile();
-        });
+        btnUpdate.addActionListener(e -> controller.loadFile());
 
-        btnBack.addActionListener(e -> {
-            controller.back();
-        });
+        btnBack.addActionListener(e -> controller.back());
 
-    }
-
-    public void log(String message) {
-        txtLog.append(message);
-        txtLog.append("\n");
     }
 }
