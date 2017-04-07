@@ -24,10 +24,6 @@ import java.util.regex.Pattern;
 
 class DataLoader {
 
-    private static final Pattern patternSplitter = Pattern.compile("ERROR\\sin\\s(?:\\[at-loader]\\s)?", Pattern.MULTILINE);
-    private static final Pattern patternError = Pattern.compile("([^:]+)(?::(\\d+):(\\d+))?\\s*\\n^\\s*([^:]+):\\s*(.*)",Pattern.MULTILINE);
-    private static final Pattern patternStackTrace = Pattern.compile("\\s@\\s(?:\\S*\\s(?:(\\d+):(\\d+)-(\\d+))?)",Pattern.MULTILINE);
-
     static void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
 
         // TODO: use another way to get project
@@ -38,13 +34,9 @@ class DataLoader {
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "Loading Log File") {
 
             private ErrorGroup root;
-            private CharSequence fileContent;
-            private ProgressIndicator progressIndicator;
 
             @Override
             public void run(@NotNull ProgressIndicator progressIndicator) {
-                this.progressIndicator = progressIndicator;
-
                 Application application = ApplicationManager.getApplication();
                 
                 application.runReadAction(() -> {
@@ -56,67 +48,13 @@ class DataLoader {
 
                         file = LocalFileSystem.getInstance().findFileByIoFile(new File(project1.getBasePath(), filePath));
                         if (file != null && file.isValid()) {
-                            fileContent = LoadTextUtil.loadText(file);
-                            application.invokeLater(this::parseFile);
+                            CharSequence fileContent = LoadTextUtil.loadText(file);
+                            application.invokeLater(() -> {
+                                root = LogFormatDetector.getParser(fileContent).parseFile(fileContent, progressIndicator);
+                            });
                         }
                     }
                 });
-
-            }
-
-            private void parseFile() {
-                progressIndicator.setFraction(0.10);
-                progressIndicator.setText("Parsing...");
-
-                root = new ErrorGroup("All");
-
-                patternSplitter.splitAsStream(fileContent)
-                        .skip(1)
-                        .map(this::parseError)
-                        .filter(Objects::nonNull)
-                        .forEach(error -> root.add(error));
-            }
-
-            private ErrorInformation parseError(String errorMessage) {
-
-                Matcher errorMatcher = patternError.matcher(errorMessage);
-
-                if (errorMatcher.lookingAt()) {
-                    ErrorInformation result = new ErrorInformation() {{
-                        file = fixPath(errorMatcher.group(1));
-                        line = safeParseInt(errorMatcher.group(2), -1);
-                        startIndex = safeParseInt(errorMatcher.group(3), -1);
-                        errorCode = errorMatcher.group(4);
-                        description = errorMatcher.group(5);
-                    }};
-
-                    Matcher stackTraceMatcher = patternStackTrace.matcher(errorMessage.substring(errorMatcher.end()));
-
-                    com.intellij.openapi.diagnostic.Logger.getInstance("My").debug(errorMessage.substring(errorMatcher.end()));
-
-                    if (stackTraceMatcher.find()) {
-                        result.line = safeParseInt(stackTraceMatcher.group(1), result.line);
-                        result.startIndex = safeParseInt(stackTraceMatcher.group(2), result.startIndex);
-                        result.endIndex = safeParseInt(stackTraceMatcher.group(3), result.endIndex);
-                    }
-
-                    return result;
-                }
-
-
-                return null;
-            }
-
-            private String fixPath(String path) {
-                return path;
-            }
-
-            private int safeParseInt(String string, int defaultValue) {
-                try {
-                    return Integer.parseInt(string);
-                } catch (NumberFormatException e) {
-                    return defaultValue;
-                }
             }
 
             @Override
