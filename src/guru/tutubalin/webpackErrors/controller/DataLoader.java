@@ -49,9 +49,11 @@ class DataLoader {
                         file = LocalFileSystem.getInstance().findFileByIoFile(new File(project1.getBasePath(), filePath));
                         if (file != null && file.isValid()) {
                             CharSequence fileContent = LoadTextUtil.loadText(file);
-                            application.invokeLater(() -> {
-                                root = LogFormatDetector.getParser(fileContent).parseFile(fileContent, progressIndicator);
-                            });
+
+                            progressIndicator.setFraction(0.10);
+                            progressIndicator.setText("Parsing...");
+
+                            application.invokeLater(() -> root = LogFormatDetector.getParser(fileContent).parseFile(fileContent));
                         }
                     }
                 });

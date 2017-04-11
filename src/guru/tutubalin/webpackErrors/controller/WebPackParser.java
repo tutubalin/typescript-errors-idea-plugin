@@ -1,6 +1,5 @@
 package guru.tutubalin.webpackErrors.controller;
 
-import com.intellij.openapi.progress.ProgressIndicator;
 import guru.tutubalin.webpackErrors.model.ErrorGroup;
 import guru.tutubalin.webpackErrors.model.ErrorInformation;
 
@@ -26,10 +25,7 @@ public class WebPackParser implements ILogParser {
     private WebPackParser() {
     }
 
-    public ErrorGroup parseFile(CharSequence fileContent, ProgressIndicator progressIndicator) {
-        progressIndicator.setFraction(0.10);
-        progressIndicator.setText("Parsing...");
-
+    public ErrorGroup parseFile(CharSequence fileContent) {
         ErrorGroup root = new ErrorGroup("All");
 
         patternSplitter.splitAsStream(fileContent)
@@ -51,7 +47,7 @@ public class WebPackParser implements ILogParser {
                 line = safeParseInt(errorMatcher.group(2), -1);
                 startIndex = safeParseInt(errorMatcher.group(3), -1);
                 errorCode = errorMatcher.group(4);
-                description = errorMatcher.group(5);
+                shortDescription = errorMatcher.group(5);
             }};
 
             Matcher stackTraceMatcher = patternStackTrace.matcher(errorMessage.substring(errorMatcher.end()));

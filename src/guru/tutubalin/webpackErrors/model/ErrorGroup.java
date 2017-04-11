@@ -49,7 +49,7 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
                     key = error.errorCode;
                     break;
                 case DESCRIPTION:
-                    key = error.description;
+                    key = error.shortDescription;
                     break;
                 case FILE:
                     key = error.file;

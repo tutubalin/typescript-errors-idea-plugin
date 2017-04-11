@@ -6,6 +6,6 @@ package guru.tutubalin.webpackErrors.controller;
 public class LogFormatDetector {
 
     public static ILogParser getParser(CharSequence fileContent) {
-        return WebPackParser.getInstance();
+        return TSCParser.getInstance();
     }
 }
