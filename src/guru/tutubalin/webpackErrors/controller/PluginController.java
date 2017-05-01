@@ -2,6 +2,7 @@ package guru.tutubalin.webpackErrors.controller;
 
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.DataKeys;
+import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
@@ -15,13 +16,18 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBColor;
 import guru.tutubalin.webpackErrors.model.ErrorGroup;
 import guru.tutubalin.webpackErrors.model.ErrorInformation;
+import guru.tutubalin.webpackErrors.view.ErrorGroupCellRenderer;
 import guru.tutubalin.webpackErrors.view.PluginToolWindow;
 
 import java.awt.*;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+import java.util.ResourceBundle;
 
 public class PluginController {
-
 
     private PluginToolWindow view;
     private ErrorGroup currentGroup;
@@ -35,6 +41,16 @@ public class PluginController {
 
     public PluginController(PluginToolWindow view) {
         this.view = view;
+
+//        try {
+//            InputStream in = new FileInputStream("errors.properties");
+//            ErrorGroupCellRenderer.generalErrorMessages.load(in);
+//            in.close();
+//        } catch (IOException e) {
+//            Logger.getInstance("My").error(e);
+//        }
+
+
     }
 
     public void itemClicked(ErrorGroup errorGroup) {

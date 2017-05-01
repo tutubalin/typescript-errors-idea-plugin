@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class TSCParser implements ILogParser {
 
-    private Pattern patternError = Pattern.compile("^([^(]*\\.ts)\\((\\d+)\\,(\\d+)\\):\\serror\\sTS(\\d+):\\s((?:(.|\\n\\s))*)", Pattern.MULTILINE);
+    private Pattern patternError = Pattern.compile("^([^(]*\\.ts)\\((\\d+)\\,(\\d+)\\):\\serror\\s(TS\\d+):\\s((?:(.|\\n\\s))*)", Pattern.MULTILINE);
 
     private static TSCParser ourInstance = new TSCParser();
 

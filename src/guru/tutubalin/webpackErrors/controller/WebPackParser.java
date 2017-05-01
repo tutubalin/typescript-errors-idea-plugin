@@ -1,5 +1,6 @@
 package guru.tutubalin.webpackErrors.controller;
 
+import com.intellij.openapi.diagnostic.Logger;
 import guru.tutubalin.webpackErrors.model.ErrorGroup;
 import guru.tutubalin.webpackErrors.model.ErrorInformation;
 
@@ -52,7 +53,7 @@ public class WebPackParser implements ILogParser {
 
             Matcher stackTraceMatcher = patternStackTrace.matcher(errorMessage.substring(errorMatcher.end()));
 
-            com.intellij.openapi.diagnostic.Logger.getInstance("My").debug(errorMessage.substring(errorMatcher.end()));
+            Logger.getInstance("My").debug(errorMessage.substring(errorMatcher.end()));
 
             if (stackTraceMatcher.find()) {
                 result.line = safeParseInt(stackTraceMatcher.group(1), result.line);

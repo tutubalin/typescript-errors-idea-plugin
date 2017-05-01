@@ -112,5 +112,9 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
     public ErrorGroup getParent() {
         return parent;
     }
+
+    public ErrorGroupLevel getLevel() {
+        return level;
+    }
 }
 
