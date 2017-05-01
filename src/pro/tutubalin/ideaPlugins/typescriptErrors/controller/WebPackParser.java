@@ -1,8 +1,8 @@
-package guru.tutubalin.webpackErrors.controller;
+package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
 import com.intellij.openapi.diagnostic.Logger;
-import guru.tutubalin.webpackErrors.model.ErrorGroup;
-import guru.tutubalin.webpackErrors.model.ErrorInformation;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorInformation;
 
 import java.util.Objects;
 import java.util.regex.Matcher;

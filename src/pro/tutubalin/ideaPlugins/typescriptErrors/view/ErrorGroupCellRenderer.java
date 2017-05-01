@@ -1,12 +1,10 @@
-package guru.tutubalin.webpackErrors.view;
+package pro.tutubalin.ideaPlugins.typescriptErrors.view;
 
-import guru.tutubalin.webpackErrors.model.ErrorGroup;
-import guru.tutubalin.webpackErrors.model.ErrorGroupLevel;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroupLevel;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.MissingResourceException;
-import java.util.Properties;
 import java.util.ResourceBundle;
 
 public class ErrorGroupCellRenderer implements javax.swing.ListCellRenderer<ErrorGroup> {

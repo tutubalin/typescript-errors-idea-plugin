@@ -1,4 +1,4 @@
-package guru.tutubalin.webpackErrors.model;
+package pro.tutubalin.ideaPlugins.typescriptErrors.model;
 
 public enum ErrorGroupLevel {
     ROOT,

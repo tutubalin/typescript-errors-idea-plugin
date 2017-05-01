@@ -1,4 +1,4 @@
-package guru.tutubalin.webpackErrors.controller;
+package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.DataContext;
@@ -12,15 +12,11 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import guru.tutubalin.webpackErrors.model.ErrorGroup;
-import guru.tutubalin.webpackErrors.model.ErrorInformation;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
-import java.util.Objects;
 import java.util.function.Consumer;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 class DataLoader {
 

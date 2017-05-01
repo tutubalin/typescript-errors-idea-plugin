@@ -1,12 +1,12 @@
-package guru.tutubalin.webpackErrors.view;
+package pro.tutubalin.ideaPlugins.typescriptErrors.view;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
-import guru.tutubalin.webpackErrors.controller.PluginController;
-import guru.tutubalin.webpackErrors.model.ErrorGroup;
+import pro.tutubalin.ideaPlugins.typescriptErrors.controller.PluginController;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
 import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;

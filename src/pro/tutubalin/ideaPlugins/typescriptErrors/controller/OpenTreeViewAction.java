@@ -1,10 +1,10 @@
-package guru.tutubalin.webpackErrors.controller;
+package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindowManager;
-import guru.tutubalin.webpackErrors.view.PluginToolWindow;
+import pro.tutubalin.ideaPlugins.typescriptErrors.view.PluginToolWindow;
 
 public class OpenTreeViewAction extends AnAction {
 

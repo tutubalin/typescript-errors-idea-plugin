@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="guru.tutubalin.webpackErrors.view.ErrorGroupCellRenderer">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="pro.tutubalin.ideaPlugins.typescriptErrors.view.ErrorGroupCellRenderer">
   <grid id="27dc6" binding="panelRenderer" layout-manager="FormLayout">
     <rowspec value="center:d:noGrow"/>
     <colspec value="fill:d:grow"/>

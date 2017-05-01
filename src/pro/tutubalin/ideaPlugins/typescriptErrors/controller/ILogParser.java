@@ -1,6 +1,6 @@
-package guru.tutubalin.webpackErrors.controller;
+package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
-import guru.tutubalin.webpackErrors.model.ErrorGroup;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
 
 /**
  * Created by Daniil Tutubalin on 07.04.2017.

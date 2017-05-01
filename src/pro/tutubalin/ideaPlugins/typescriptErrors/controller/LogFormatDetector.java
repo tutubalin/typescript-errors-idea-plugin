@@ -1,4 +1,4 @@
-package guru.tutubalin.webpackErrors.controller;
+package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
 /**
  * Created by Daniil Tutubalin on 07.04.2017.

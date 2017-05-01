@@ -1,8 +1,7 @@
-package guru.tutubalin.webpackErrors.controller;
+package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
@@ -14,18 +13,12 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBColor;
-import guru.tutubalin.webpackErrors.model.ErrorGroup;
-import guru.tutubalin.webpackErrors.model.ErrorInformation;
-import guru.tutubalin.webpackErrors.view.ErrorGroupCellRenderer;
-import guru.tutubalin.webpackErrors.view.PluginToolWindow;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorInformation;
+import pro.tutubalin.ideaPlugins.typescriptErrors.view.PluginToolWindow;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-import java.util.ResourceBundle;
 
 public class PluginController {
 
