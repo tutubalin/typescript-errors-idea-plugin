@@ -55,7 +55,7 @@ public class PluginToolWindow implements ToolWindowFactory {
         Content content = contentFactory.createContent(panelContent, "", false);
         toolWindow.getContentManager().addContent(content);
 
-        controller = new PluginController(this);
+        controller = new PluginController(this, project);
         initListeners();
     }
 

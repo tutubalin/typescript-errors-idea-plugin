@@ -1,8 +1,5 @@
 package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.impl.LoadTextUtil;
@@ -12,20 +9,15 @@ import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
-import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
 import org.jetbrains.annotations.NotNull;
+import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
 
 import java.io.File;
 import java.util.function.Consumer;
 
 class DataLoader {
 
-    static void loadData(String filePath, final Consumer<ErrorGroup> onSuccess) {
-
-        // TODO: use another way to get project
-        // dataContext may be null on IDEA startup
-        DataContext dataContext = DataManager.getInstance().getDataContextFromFocus().getResult();
-        Project project = DataKeys.PROJECT.getData(dataContext);
+    static void loadData(Project project, String filePath, final Consumer<ErrorGroup> onSuccess) {
 
         ProgressManager.getInstance().run(new Task.Backgroundable(project, "Loading Log File") {
 

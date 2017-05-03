@@ -22,6 +22,7 @@ import java.io.File;
 
 public class PluginController {
 
+    private final Project project;
     private PluginToolWindow view;
     private ErrorGroup currentGroup;
     private static final TextAttributes hightlightAttributes = new TextAttributes(
@@ -30,20 +31,13 @@ public class PluginController {
             JBColor.RED,
             EffectType.WAVE_UNDERSCORE,
             0);
+
     private RangeHighlighter highlighter;
+    private String inputFileName = "compilation.log";
 
-    public PluginController(PluginToolWindow view) {
+    public PluginController(PluginToolWindow view, Project project) {
         this.view = view;
-
-//        try {
-//            InputStream in = new FileInputStream("errors.properties");
-//            ErrorGroupCellRenderer.generalErrorMessages.load(in);
-//            in.close();
-//        } catch (IOException e) {
-//            Logger.getInstance("My").error(e);
-//        }
-
-
+        this.project = project;
     }
 
     public void itemClicked(ErrorGroup errorGroup) {
@@ -60,8 +54,6 @@ public class PluginController {
     }
 
     private void jumpToCode(ErrorInformation errorInfo) {
-
-        Project project = getProject();
 
         VirtualFile file = LocalFileSystem.getInstance().findFileByIoFile(new File(project.getBasePath(), errorInfo.file));
         if (file != null && file.isValid()) {
@@ -109,15 +101,31 @@ public class PluginController {
         }
     }
 
+    /*
+    MessageBusConnection busConnection = project.getMessageBus().connect();
+    busConnection.subscribe(ProjectManager.TOPIC, new ProjectManagerListener() {
+      @Override
+      public void projectOpened(Project project) {
+        if (project == myProject) {
+          ToolWindowManagerImpl.this.projectOpened();
+        }
+      }
+
+      @Override
+      public void projectClosed(Project project) {
+        if (project == myProject) {
+          ToolWindowManagerImpl.this.projectClosed();
+        }
+      }
+    });
+     */
+
     public void loadFile() {
-        DataLoader.loadData("log.txt", this::displayGroup);
+        DataLoader.loadData(project, inputFileName, this::displayGroup);
     }
 
     public void back() {
         displayGroup(currentGroup.getParent());
     }
 
-    private Project getProject() {
-        return DataKeys.PROJECT.getData(DataManager.getInstance().getDataContextFromFocus().getResult());
-    }
 }
