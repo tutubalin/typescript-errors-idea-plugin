@@ -20,6 +20,8 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
     private boolean sorted = false;
     private ErrorGroup parent = null;
 
+    public static ResourceBundle generalErrorMessages = ResourceBundle.getBundle("errors");
+
     public ErrorGroup(String title) {
         this(title, ErrorGroupLevel.ROOT);
     }
@@ -34,6 +36,9 @@ public class ErrorGroup implements Comparable<ErrorGroup> {
         count++;
         if (count == 1) {
             this.errorInfo = error;
+            if (level == ErrorGroupLevel.ERROR_CODE && generalErrorMessages.containsKey(error.errorCode)) {
+                title += " "+generalErrorMessages.getString(error.errorCode);
+            }
         }
         sorted = false;
 

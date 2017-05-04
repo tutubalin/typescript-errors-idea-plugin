@@ -1,55 +1,59 @@
 package pro.tutubalin.ideaPlugins.typescriptErrors.view;
 
+import com.intellij.openapi.project.DumbAware;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowFactory;
 import com.intellij.ui.content.Content;
 import com.intellij.ui.content.ContentFactory;
+import org.jetbrains.annotations.NotNull;
 import pro.tutubalin.ideaPlugins.typescriptErrors.controller.PluginController;
 import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
-import org.jetbrains.annotations.NotNull;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.*;
 
-public class PluginToolWindow implements ToolWindowFactory {
+public class PluginToolWindow implements ToolWindowFactory, DumbAware {
 
     private JPanel panelContent;
     private JButton btnUpdate;
-    private JList<ErrorGroup> list;
     private JButton btnBack;
+    private JTable table;
 
     private PluginController controller;
 
-    public static final String ID = "Webpack Errors";
+    public static final String ID = "TypeScript Errors";
 
-    private DefaultListModel<ErrorGroup> listModel;
     private ToolWindow toolWindow;
-    private DefaultTableModel tableModel;
+    private ErrorGroupTableModel tableModel;
 
 
     public void displayErrorGroup(ErrorGroup errorGroup) {
 
-        listModel.clear();
-        errorGroup.getChildren().forEach(item -> listModel.addElement(item));
-
-        //errorGroup.getChildren().forEach(item -> tableModel.addRow(new Object[]{item.getTitle(), item.getCount()}));
+        tableModel.setErrorGroup(errorGroup);
 
         btnBack.setEnabled(errorGroup.getParent() != null);
-
         toolWindow.setTitle(errorGroup.getTitle() + " - " + errorGroup.getCount());
+
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        DefaultTableCellRenderer rightAlignedRenderer = new DefaultTableCellRenderer();
+        rightAlignedRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+        table.getColumnModel().getColumn(1).setCellRenderer(rightAlignedRenderer);
     }
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull com.intellij.openapi.wm.ToolWindow toolWindow) {
         this.toolWindow = toolWindow;
 
-        listModel = new DefaultListModel<>();
-        list.setModel(listModel);
-        list.setCellRenderer(new ErrorGroupCellRenderer());
+        tableModel = new ErrorGroupTableModel();
+        table.setModel(tableModel);
 
-        /*tableModel = new DefaultTableModel(new String[]{"Error", "Count"}, 20);
-        table.setModel(tableModel); */
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
+        DefaultTableCellRenderer rightAlignedRenderer = new DefaultTableCellRenderer();
+        rightAlignedRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
+        table.getColumnModel().getColumn(1).setCellRenderer(rightAlignedRenderer);
 
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(panelContent, "", false);
@@ -60,12 +64,12 @@ public class PluginToolWindow implements ToolWindowFactory {
     }
 
     private void initListeners() {
-        list.getSelectionModel().addListSelectionListener(e -> {
+        table.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 
                 if (!lsm.isSelectionEmpty()) {
-                    controller.itemClicked(list.getSelectedValue());
+                    controller.itemClicked(tableModel.getErrorGroup().getChildren().get(table.getSelectedRow()));
                 }
             }
         });

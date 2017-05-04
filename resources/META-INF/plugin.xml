@@ -2,7 +2,7 @@
   <id>guru.tutubalin.webpackErrors</id>
   <name>Webpack errors</name>
   <version>1.0</version>
-  <vendor email="tutubalin@gmail.com" url="http://tutubalin.guru/">Daniil Tutubalin</vendor>
+  <vendor email="tutubalin@gmail.com" url="http://tutubalin.pro/">Daniil Tutubalin</vendor>
 
   <description><![CDATA[
       Enter short description for your plugin here.<br>
@@ -26,12 +26,12 @@
 
   <extensions defaultExtensionNs="com.intellij">
     <!-- Add your extensions here -->
-    <toolWindow id="Webpack Errors" anchor="left" factoryClass="pro.tutubalin.ideaPlugins.typescriptErrors.view.PluginToolWindow"/>
+    <toolWindow id="TypeScript Errors" anchor="left" factoryClass="pro.tutubalin.ideaPlugins.typescriptErrors.view.PluginToolWindow"/>
   </extensions>
 
   <actions>
     <!-- Add your actions here -->
-    <action id="guru.tutubalin.webpackErrors.ErrorList" class="pro.tutubalin.ideaPlugins.typescriptErrors.controller.OpenTreeViewAction" text="Webpack Erros"
+    <action id="pro.tutubalin.webpackErrors.ErrorList" class="pro.tutubalin.ideaPlugins.typescriptErrors.controller.OpenTreeViewAction" text="Webpack Erros"
             description="Webpack Errors">
       <add-to-group group-id="ToolsMenu" anchor="last"/>
       <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt E"/>
