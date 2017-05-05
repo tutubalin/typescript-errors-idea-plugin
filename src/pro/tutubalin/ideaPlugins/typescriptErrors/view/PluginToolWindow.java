@@ -35,7 +35,7 @@ public class PluginToolWindow implements ToolWindowFactory, DumbAware {
         btnBack.setEnabled(errorGroup.getParent() != null);
         toolWindow.setTitle(errorGroup.getTitle() + " - " + errorGroup.getCount());
 
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+
 
         DefaultTableCellRenderer rightAlignedRenderer = new DefaultTableCellRenderer();
         rightAlignedRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -49,11 +49,11 @@ public class PluginToolWindow implements ToolWindowFactory, DumbAware {
         tableModel = new ErrorGroupTableModel();
         table.setModel(tableModel);
 
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.getColumnModel().getColumn(1).setPreferredWidth(50);
+        table.getColumnModel().getColumn(1).setMaxWidth(50);
 
-        DefaultTableCellRenderer rightAlignedRenderer = new DefaultTableCellRenderer();
-        rightAlignedRenderer.setHorizontalAlignment(SwingConstants.RIGHT);
-        table.getColumnModel().getColumn(1).setCellRenderer(rightAlignedRenderer);
+        //table.getColumnModel().getColumn(1).setWidth(100);
+
 
         ContentFactory contentFactory = ContentFactory.SERVICE.getInstance();
         Content content = contentFactory.createContent(panelContent, "", false);

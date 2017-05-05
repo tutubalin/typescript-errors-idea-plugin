@@ -1,7 +1,5 @@
 package pro.tutubalin.ideaPlugins.typescriptErrors.controller;
 
-import com.intellij.ide.DataManager;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.editor.CaretModel;
 import com.intellij.openapi.editor.Editor;
 import com.intellij.openapi.editor.LogicalPosition;
@@ -13,6 +11,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.ui.JBColor;
+import org.jetbrains.annotations.NotNull;
 import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorGroup;
 import pro.tutubalin.ideaPlugins.typescriptErrors.model.ErrorInformation;
 import pro.tutubalin.ideaPlugins.typescriptErrors.view.PluginToolWindow;
@@ -48,7 +47,7 @@ public class PluginController {
         }
     }
 
-    private void displayGroup(ErrorGroup errorGroup) {
+    private void displayGroup(@NotNull ErrorGroup errorGroup) {
         currentGroup = errorGroup;
         view.displayErrorGroup(errorGroup);
     }
@@ -100,32 +99,15 @@ public class PluginController {
             }
         }
     }
-
-    /*
-    MessageBusConnection busConnection = project.getMessageBus().connect();
-    busConnection.subscribe(ProjectManager.TOPIC, new ProjectManagerListener() {
-      @Override
-      public void projectOpened(Project project) {
-        if (project == myProject) {
-          ToolWindowManagerImpl.this.projectOpened();
-        }
-      }
-
-      @Override
-      public void projectClosed(Project project) {
-        if (project == myProject) {
-          ToolWindowManagerImpl.this.projectClosed();
-        }
-      }
-    });
-     */
-
+    
     public void loadFile() {
         DataLoader.loadData(project, inputFileName, this::displayGroup);
     }
 
     public void back() {
-        displayGroup(currentGroup.getParent());
+        if (currentGroup != null && currentGroup.getParent() != null) {
+            displayGroup(currentGroup.getParent());
+        }
     }
 
 }
